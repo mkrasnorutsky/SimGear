@@ -26,7 +26,7 @@ def main():
             with tempfile.TemporaryDirectory(prefix='simgear-client-') as directory:
                 binary=Path(directory)/'client'
                 subprocess.run(['xcrun','clang++','-target',triple,'-isysroot',sdk,'-std=c++17','-DOSG_LIBRARY_STATIC','-DOPENTHREADS_LIBRARY_STATIC',*include,*frameworks,
-                    str(ROOT/'apple/scripts/simgear_smoke.cpp'),str(ROOT/'apple/SPM/SimGearSPM.cpp'),str(ROOT/'apple/validation/osg/OpenSceneGraphSPM.cpp'),str(archive),*libraries,
+                    str(ROOT/'apple/scripts/simgear_smoke.cpp'),str(ROOT/'apple/SPM/SimGearSPM.cpp'),str(ROOT/'apple/validation/osg/OpenSceneGraphSPM.cpp'),'-Wl,-force_load,'+str(archive),*libraries,
                     '-framework','libGLESv2','-framework','libEGL','-lz','-lresolv',*[item for f in SYSTEM_FRAMEWORKS for item in ['-framework',f]],'-o',str(binary)],check=True)
                 print('PASS: SimGear Core/Scene and dependency link '+triple,flush=True)
                 if a.run_simulator and sim and arch==os.uname().machine:

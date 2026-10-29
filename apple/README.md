@@ -15,7 +15,7 @@ python3 apple/scripts/build_xcframework.py --jobs 6
 python3 apple/scripts/validate_xcframework.py
 ```
 
-Validation links XML/property/elevator input, scenery bucket, scene image utilities, HTTP/DNS clients, sound construction and OSG static plugin/serializer registration against every architecture. To execute the smoke test on an already booted Simulator matching the host architecture, use `--run-simulator`. Default validation is compile/link only and does not claim on-device runtime execution. OSG validation glue is copied from the matching OSG package to keep validation independent of neighboring checkouts.
+Validation forces every SimGear archive object into the link to detect missing symbols, and exercises XML/property/elevator input, scenery bucket, scene image utilities, HTTP/DNS clients, sound construction and OSG static plugin/serializer registration against every architecture. To execute the smoke test on an already booted Simulator matching the host architecture, use `--run-simulator`. Default validation is compile/link only and does not claim on-device runtime execution. OSG validation glue is copied from the matching OSG package to keep validation independent of neighboring checkouts.
 
 ```sh
 python3 apple/scripts/validate_spm.py
