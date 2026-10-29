@@ -3,11 +3,11 @@ import PackageDescription
 let package = Package(name: "SimGear", platforms: [.iOS("18.0")],
     products: [.library(name: "SimGear", targets: ["SimGear"])],
     dependencies: [
-        .package(url: "https://github.com/mkrasnorutsky/OpenSceneGraph.git", exact: "0.1.0"),
-        .package(url: "https://github.com/mkrasnorutsky/Boost.git", exact: "0.1.0"),
-        .package(url: "https://github.com/mkrasnorutsky/curl.git", exact: "0.1.0"),
-        .package(url: "https://github.com/mkrasnorutsky/c-ares.git", exact: "0.1.0"),
-        .package(url: "https://github.com/mkrasnorutsky/XZ.git", exact: "0.1.0")
+        .package(url: "https://github.com/mkrasnorutsky/OpenSceneGraph.git", exact: "0.1.1"),
+        .package(url: "https://github.com/mkrasnorutsky/Boost.git", exact: "0.1.1"),
+        .package(url: "https://github.com/mkrasnorutsky/curl.git", exact: "0.1.1"),
+        .package(url: "https://github.com/mkrasnorutsky/c-ares.git", exact: "0.1.1"),
+        .package(url: "https://github.com/mkrasnorutsky/XZ.git", exact: "0.1.1")
     ],
     targets: [
         .binaryTarget(name: "CSimGear", path: "dist/SimGear.xcframework"),

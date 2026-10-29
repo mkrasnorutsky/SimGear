@@ -3,14 +3,14 @@ import PackageDescription
 let package = Package(name: "SimGear", platforms: [.iOS("18.0")],
     products: [.library(name: "SimGear", targets: ["SimGear"])],
     dependencies: [
-        .package(url: "https://github.com/mkrasnorutsky/OpenSceneGraph.git", exact: "0.1.0"),
-        .package(url: "https://github.com/mkrasnorutsky/Boost.git", exact: "0.1.0"),
-        .package(url: "https://github.com/mkrasnorutsky/curl.git", exact: "0.1.0"),
-        .package(url: "https://github.com/mkrasnorutsky/c-ares.git", exact: "0.1.0"),
-        .package(url: "https://github.com/mkrasnorutsky/XZ.git", exact: "0.1.0")
+        .package(url: "https://github.com/mkrasnorutsky/OpenSceneGraph.git", exact: "0.1.1"),
+        .package(url: "https://github.com/mkrasnorutsky/Boost.git", exact: "0.1.1"),
+        .package(url: "https://github.com/mkrasnorutsky/curl.git", exact: "0.1.1"),
+        .package(url: "https://github.com/mkrasnorutsky/c-ares.git", exact: "0.1.1"),
+        .package(url: "https://github.com/mkrasnorutsky/XZ.git", exact: "0.1.1")
     ],
     targets: [
-        .binaryTarget(name: "CSimGear", url: "https://github.com/mkrasnorutsky/SimGear/releases/download/0.1.0/SimGear.xcframework.zip", checksum: "43243a5a0794b4e2ae8cdfa48c21078d33a3fb82e5c858fcc7cf5c99f14b8941"),
+        .binaryTarget(name: "CSimGear", url: "https://github.com/mkrasnorutsky/SimGear/releases/download/0.1.1/SimGear.xcframework.zip", checksum: "9cbcb467b128d5a617b4daf6d7c7cf849270376e61f027491897de13cf05b881"),
         .target(name: "SimGear", dependencies: ["CSimGear",
             .product(name: "OpenSceneGraph", package: "openscenegraph"), .product(name: "Boost", package: "boost"),
             .product(name: "Curl", package: "curl"), .product(name: "CAres", package: "c-ares"), .product(name: "LZMA", package: "xz")],

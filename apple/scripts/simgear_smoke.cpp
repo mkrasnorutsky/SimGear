@@ -6,11 +6,14 @@
 #include <simgear/io/HTTPClient.hxx>
 #include <simgear/io/DNSClient.hxx>
 #include <simgear/sound/soundmgr.hxx>
+#include <osgDB/Registry>
 #include <sstream>
 #include <string>
 #include <cstdio>
 int main() {
     SimGearSPMInitialize();
+    for (const char* extension : {"ac", "btg", "stg", "gltf"})
+        if (!osgDB::Registry::instance()->getReaderWriterForExtension(extension)) return 6;
     if (!SimGearSPMVersion()[0]) return 1;
     SGPropertyNode root;
     std::istringstream xml("<PropertyList><controls><flight><elevator type=\"double\">-0.25</elevator></flight></controls><aircraft>C172P</aircraft></PropertyList>");

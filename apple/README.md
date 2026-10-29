@@ -25,7 +25,7 @@ This resolves the package manifest, builds a downstream C++ consumer for all thr
 
 ## Integration
 
-Add `https://github.com/mkrasnorutsky/SimGear.git`, version `0.1.0`, and select **SimGear**. Include normal `<simgear/...>` headers from C++17 code. Call `SimGearSPMInitialize()` before loading models/fonts to retain and register OSG static plugins and serializers. The app owns UIKit lifecycle, EGL contexts/surfaces, audio-session setup and resources. No window or controls are created by this package.
+Add `https://github.com/mkrasnorutsky/SimGear.git`, version `0.1.1`, and select **SimGear**. Include normal `<simgear/...>` headers from C++17 code. Call `SimGearSPMInitialize()` before loading models/fonts to retain and register OSG static plugins and serializers. The app owns UIKit lifecycle, EGL contexts/surfaces, audio-session setup and resources. No window or controls are created by this package.
 
 SPM target compiler definitions apply to the package wrapper. Downstream FlightGear builds must retain their existing Boost compatibility definitions and use the shipped configuration headers. Static OSG headers already define the required static library mode. Linking is covered by SPM's transitive dependencies and SDK framework settings.
 
@@ -34,7 +34,11 @@ The curl dependency uses Secure Transport and supports TLS through 1.2; see that
 ## Release
 
 ```sh
-python3 apple/scripts/package_release.py --tag 0.1.0
+python3 apple/scripts/package_release.py --tag 0.1.1
 ```
 
 Commit `dist/Package.swift` as the root manifest and upload the ZIP, checksums and build manifest to the matching release. To use locally rebuilt binaries, restore `apple/Package.local.swift` as the root manifest. Published archive bytes/checksums remain immutable.
+
+## Xcode header layout (0.1.1)
+
+Binary module maps live under a module-specific header subdirectory, avoiding duplicate `include/module.modulemap` outputs when Xcode processes several static XCFrameworks together. The library bytes and public include paths are unchanged. Set `APPLE_BUILD_ROOT` to keep `out/` and `dist/` outside the checkout.

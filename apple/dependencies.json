@@ -12,39 +12,39 @@
     "version": "0.1.0"
   },
   "FreeType": {
-    "url": "https://github.com/mkrasnorutsky/FreeType/releases/download/0.1.0/FreeType.xcframework.zip",
-    "sha256": "78944338593587a4cdaf2ce6d39dc80fd51e2568e7648304ca1ebaba58779662",
+    "url": "https://github.com/mkrasnorutsky/FreeType/releases/download/0.1.1/FreeType.xcframework.zip",
+    "sha256": "17cc8a2994007fa50cab824f8dee6ccd1585a6981c1bf467f1e8b2e01965c646",
     "package": "FreeType",
-    "version": "0.1.0"
+    "version": "0.1.1"
   },
   "OpenSceneGraph": {
-    "url": "https://github.com/mkrasnorutsky/OpenSceneGraph/releases/download/0.1.0/OpenSceneGraph.xcframework.zip",
-    "sha256": "b4e8f90e559ef0c4722b92429cfa0e0e073028cc9b08c1bf26fa76b837cc3a51",
+    "url": "https://github.com/mkrasnorutsky/OpenSceneGraph/releases/download/0.1.1/OpenSceneGraph.xcframework.zip",
+    "sha256": "9898acad48383ed4d0970b65fae055ce7169d955dc62994a40034e3ab6efd09f",
     "package": "OpenSceneGraph",
-    "version": "0.1.0"
+    "version": "0.1.1"
   },
   "Boost": {
-    "url": "https://github.com/mkrasnorutsky/Boost/releases/download/0.1.0/Boost.xcframework.zip",
-    "sha256": "b5cda409e33df01f00e7bbda3ac7bf7853efad4b49bbdb9764b29f351e352387",
+    "url": "https://github.com/mkrasnorutsky/Boost/releases/download/0.1.1/Boost.xcframework.zip",
+    "sha256": "3135525aa0368d05c8fd76109a5f80c5023194b3898b7a904d24ccb04cd602b6",
     "package": "Boost",
-    "version": "0.1.0"
+    "version": "0.1.1"
   },
   "Curl": {
-    "url": "https://github.com/mkrasnorutsky/curl/releases/download/0.1.0/Curl.xcframework.zip",
-    "sha256": "29e8d7316463d81708d1ec54c91c41b3c47592ff15b757f914146fc178532149",
+    "url": "https://github.com/mkrasnorutsky/curl/releases/download/0.1.1/Curl.xcframework.zip",
+    "sha256": "d34a4e456413a26ea1c4eb7d51b63f52f68330e50b29a8d9247d07a41189d943",
     "package": "curl",
-    "version": "0.1.0"
+    "version": "0.1.1"
   },
   "CAres": {
-    "url": "https://github.com/mkrasnorutsky/c-ares/releases/download/0.1.0/CAres.xcframework.zip",
-    "sha256": "6a02c72d3b0756a8ce376823dfabcd2798dc5f00ab9c2fc54e6be3991e548f45",
+    "url": "https://github.com/mkrasnorutsky/c-ares/releases/download/0.1.1/CAres.xcframework.zip",
+    "sha256": "8773c2981fc8e1b84e40f64d7e7f6fe57a165bc31216c9af427e93c2e7146958",
     "package": "c-ares",
-    "version": "0.1.0"
+    "version": "0.1.1"
   },
   "LZMA": {
-    "url": "https://github.com/mkrasnorutsky/XZ/releases/download/0.1.0/LZMA.xcframework.zip",
-    "sha256": "f1977bfd02efe8ace94ac41e87ddf51dc33b73247f35fd60ddb01e3dacb827ac",
+    "url": "https://github.com/mkrasnorutsky/XZ/releases/download/0.1.1/LZMA.xcframework.zip",
+    "sha256": "2c337ea870ef8ecd9159144f52a27350a2a3746a35902aff09e81900bc63863f",
     "package": "XZ",
-    "version": "0.1.0"
+    "version": "0.1.1"
   }
 }

@@ -3,6 +3,8 @@
 from pathlib import Path
 import argparse,json,shutil,subprocess
 from dependencies import ROOT,fetch,select
+import os
+WORK=Path(os.environ.get("APPLE_BUILD_ROOT", str(ROOT))).expanduser().resolve()
 OPTIONS=['-DSIMGEAR_SHARED=OFF','-DSIMGEAR_HEADLESS=OFF','-DENABLE_TESTS=OFF','-DENABLE_PKGUTIL=OFF','-DENABLE_SOUND=ON','-DUSE_AEONWAVE=OFF','-DUSE_OPENALSOFT=OFF','-DENABLE_CYCLONE=OFF','-DENABLE_RTI=OFF','-DENABLE_GDAL=OFF','-DENABLE_VIDEO_RECORD=OFF','-DSYSTEM_EXPAT=OFF']
 def run(*args):
     print('+',*map(str,args),flush=True);subprocess.run(list(map(str,args)),check=True)
@@ -11,7 +13,7 @@ def main():
     deps=fetch();built={}
     variants=[('ios-arm64','iphoneos','arm64'),('simulator-arm64','iphonesimulator','arm64'),('simulator-x86_64','iphonesimulator','x86_64')]
     for label,sdk,arch in variants:
-        sim=sdk=='iphonesimulator';build=ROOT/'out/apple'/label;prefix=build/'install';compat=build/'angle';frameworks=compat/'out/iOS';frameworks.mkdir(parents=True,exist_ok=True)
+        sim=sdk=='iphonesimulator';build=WORK/'out/apple'/label;prefix=build/'install';compat=build/'angle';frameworks=compat/'out/iOS';frameworks.mkdir(parents=True,exist_ok=True)
         for name in ['libEGL','libGLESv2']:
             folder,entry=select(deps[name],sim);source=folder/entry['LibraryPath'];dest=frameworks/source.name
             if not dest.exists():shutil.copytree(source,dest)
@@ -34,14 +36,15 @@ def main():
         assert all(p.exists() for p in archives),archives
         merged=build/'libSimGear.a';run('xcrun','libtool','-static','-o',merged,*archives)
         built[label]={'prefix':prefix,'library':merged}
-    out=ROOT/'dist';out.mkdir(exist_ok=True);stage=out/'staging'
+    out=WORK/'dist';out.mkdir(exist_ok=True);stage=out/'staging'
     if stage.exists():shutil.rmtree(stage)
     stage.mkdir();sim=stage/'libSimGear.a';run('lipo','-create',built['simulator-arm64']['library'],built['simulator-x86_64']['library'],'-output',sim)
     # Preserve generated configuration headers for each architecture.
     def headers(label):
         result=stage/('Headers-'+label);shutil.copytree(built[label]['prefix']/'include',result)
         (result/'CSimGear.h').write_text('#pragma once\n/* C++ API is available via simgear/ headers. */\n')
-        (result/'module.modulemap').write_text('module CSimGear { header "CSimGear.h" export * }\n')
+        (result/'CSimGear').mkdir(exist_ok=True)
+        (result/'CSimGear/module.modulemap').write_text('module CSimGear { header "../CSimGear.h" export * }\n')
         return result
     deviceheaders=headers('ios-arm64');simheaders=headers('simulator-arm64')
     other=built['simulator-x86_64']['prefix']/'include'

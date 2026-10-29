@@ -2,8 +2,10 @@
 from pathlib import Path
 import argparse,hashlib,json,subprocess
 ROOT=Path(__file__).resolve().parents[2]
+import os
+WORK=Path(os.environ.get("APPLE_BUILD_ROOT", str(ROOT))).expanduser().resolve()
 p=argparse.ArgumentParser();p.add_argument('--tag',required=True);a=p.parse_args()
-out=ROOT/'dist';archive=out/'SimGear.xcframework.zip'
+out=WORK/'dist';archive=out/'SimGear.xcframework.zip'
 if archive.exists():archive.unlink()
 subprocess.run(['ditto','-c','-k','--sequesterRsrc','--keepParent',str(out/'SimGear.xcframework'),str(archive)],check=True)
 checksum=hashlib.sha256(archive.read_bytes()).hexdigest()

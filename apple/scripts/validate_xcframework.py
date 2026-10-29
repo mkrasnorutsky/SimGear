@@ -3,10 +3,12 @@
 from pathlib import Path
 import argparse,plistlib,subprocess,tempfile,os
 from dependencies import ROOT,fetch,select
+import os
+WORK=Path(os.environ.get("APPLE_BUILD_ROOT", str(ROOT))).expanduser().resolve()
 SYSTEM_FRAMEWORKS=['Foundation','UIKit','ImageIO','CoreGraphics','Accelerate','MobileCoreServices','Security','CoreFoundation','CoreServices','OpenAL']
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--run-simulator',action='store_true');a=p.parse_args()
-    artifact=ROOT/'dist/SimGear.xcframework';info=plistlib.loads((artifact/'Info.plist').read_bytes());assert len(info['AvailableLibraries'])==2
+    artifact=WORK/'dist/SimGear.xcframework';info=plistlib.loads((artifact/'Info.plist').read_bytes());assert len(info['AvailableLibraries'])==2
     packages=fetch()
     for entry in info['AvailableLibraries']:
         sim=entry.get('SupportedPlatformVariant')=='simulator'

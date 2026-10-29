@@ -2,8 +2,10 @@
 from pathlib import Path
 import hashlib,json,urllib.request,zipfile,io
 ROOT=Path(__file__).resolve().parents[2]
+import os
+WORK=Path(os.environ.get("APPLE_BUILD_ROOT", str(ROOT))).expanduser().resolve()
 def fetch():
-    folder=ROOT/'out/dependencies';folder.mkdir(parents=True,exist_ok=True)
+    folder=WORK/'out/dependencies';folder.mkdir(parents=True,exist_ok=True)
     for name,pin in json.loads((ROOT/'apple/dependencies.json').read_text()).items():
         archive=folder/(name+'.zip')
         if not archive.exists() or hashlib.sha256(archive.read_bytes()).hexdigest()!=pin['sha256']:
