@@ -74,7 +74,7 @@ target_include_directories(SimGearCore INTERFACE
     $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}>)
 
 target_include_directories(SimGearCore PUBLIC
-  ${Boost_INCLUDE_DIRS})
+  $<BUILD_INTERFACE:${Boost_INCLUDE_DIRS}>)
 
 if (MSVC)
     message(WARNING "FIXME: setting _HAS_STD_BYTE=0 for SimGear build, this needs to be fixed.")
