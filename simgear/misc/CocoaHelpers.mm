@@ -6,7 +6,7 @@
  * @brief Cocoa-related helpers for macOS
  */
 
-#include <Cocoa/Cocoa.h>
+#include <Foundation/Foundation.h>
 #include <Foundation/NSAutoreleasePool.h>
 
 #include <simgear/misc/sg_path.hxx>

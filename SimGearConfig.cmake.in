@@ -3,6 +3,16 @@
 
 include(CMakeFindDependencyMacro)
 
+if(NOT "@SIMGEAR_ANGLE_ROOT@" STREQUAL "")
+  set(SIMGEAR_ANGLE_ROOT "@SIMGEAR_ANGLE_ROOT@" CACHE PATH "ANGLE source tree")
+  if(NOT TARGET OpenGL::GL)
+    add_library(OpenGL::GL INTERFACE IMPORTED)
+    set_target_properties(OpenGL::GL PROPERTIES
+      INTERFACE_INCLUDE_DIRECTORIES "${SIMGEAR_ANGLE_ROOT}/include"
+      INTERFACE_LINK_LIBRARIES "${SIMGEAR_ANGLE_ROOT}/out/iOS/libGLESv2.framework/libGLESv2;${SIMGEAR_ANGLE_ROOT}/out/iOS/libEGL.framework/libEGL")
+  endif()
+endif()
+
 find_dependency(ZLIB)
 find_dependency(LibLZMA)
 find_dependency(Threads)

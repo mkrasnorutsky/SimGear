@@ -212,8 +212,10 @@ PassBuilder::build(Compositor *compositor, const SGPropertyNode *root,
     camera->setImplicitBufferAttachmentMask(implicit_attachments, implicit_attachments);
 
     // Set some global state
+#if !defined(OSG_GLES3_AVAILABLE)
     camera->getOrCreateStateSet()->setMode(GL_TEXTURE_CUBE_MAP_SEAMLESS,
                                            osg::StateAttribute::ON);
+#endif
 
     PropertyList p_shadow_passes = root->getChildren("use-shadow-pass");
     for (const auto &p_shadow_pass : p_shadow_passes) {

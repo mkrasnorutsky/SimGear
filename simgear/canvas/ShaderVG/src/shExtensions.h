@@ -22,7 +22,10 @@
 
 #include "shConfig.h"
 
-#if defined(VG_API_MACOSX)
+#if defined(SIMGEAR_USE_ANGLE)
+#include <GLES3/gl32.h>
+#include <GLES2/gl2ext.h>
+#elif defined(VG_API_MACOSX)
 #include <OpenGL/gl3.h>
 #elif defined(VG_API_WINDOWS)
 #include <GL/glcorearb.h>

@@ -134,6 +134,10 @@ if(NOT SIMGEAR_HEADLESS)
 
     target_include_directories(SimGearScene PRIVATE ${PROJECT_SOURCE_DIR}/simgear/canvas/ShaderVG/include)
 
+    if(SIMGEAR_ANGLE_ROOT)
+        target_link_libraries(SimGearScene PUBLIC OpenGL::GL)
+    endif()
+
     target_link_libraries(SimGearScene PUBLIC
         SimGearCore
         OSG::OSG

@@ -1,3 +1,4 @@
+#include <set>
 // Copyright (C) 2008 - 2010  Tim Moore timoore33@gmail.com
 //
 // This library is free software; you can redistribute it and/or
@@ -922,6 +923,39 @@ void ShaderProgramBuilder::buildAttribute(Effect* effect, Pass* pass,
             }
         }
     }
+
+#ifdef SIMGEAR_USE_ANGLE
+    // GLES allows one attached shader per stage. FlightGear effects use
+    // separate helper compilation units on desktop GL, so combine them here.
+    std::map<Shader::Type, std::string> stageSources;
+    std::map<Shader::Type, std::set<std::string>> stageUniforms;
+    std::map<Shader::Type, std::set<std::string>> stageExtensions;
+    std::vector<ref_ptr<Shader>> originalShaders;
+    for (unsigned i = 0; i < program->getNumShaders(); ++i) {
+        Shader* shader = program->getShader(i);
+        originalShaders.push_back(shader);
+        std::istringstream input(shader->getShaderSource());
+        std::string line;
+        while (std::getline(input, line)) {
+            const auto start = line.find_first_not_of(" \t");
+            const std::string trimmed = start == std::string::npos ? "" : line.substr(start);
+            if (trimmed.find("#version") == 0 || trimmed.find("$FG_GLSL_VERSION") == 0) continue;
+            if (trimmed.find("#extension") == 0) { stageExtensions[shader->getType()].insert(line); continue; }
+            if (trimmed.find("uniform ") == 0 && trimmed.find(';') != std::string::npos &&
+                !stageUniforms[shader->getType()].insert(trimmed.substr(0, trimmed.find(';') + 1)).second) continue;
+            stageSources[shader->getType()] += line + "\n";
+        }
+    }
+    for (const auto& shader : originalShaders) program->removeShader(shader);
+    for (const auto& stage : stageSources) {
+        std::string source = "#version 300 es\n";
+        for (const auto& extension : stageExtensions[stage.first]) source += extension + "\n";
+        source += "precision highp float;\nprecision highp int;\nprecision highp usampler2D;\nprecision highp isampler2D;\nprecision highp sampler2D;\nprecision highp sampler3D;\nprecision highp samplerCube;\nprecision highp sampler2DArray;\nprecision highp sampler2DShadow;\nprecision highp samplerCubeShadow;\nprecision highp sampler2DArrayShadow;\n";
+        ref_ptr<Shader> combined = new Shader(stage.first, source + stage.second);
+        combined->setName(effect->filePath().utf8Str());
+        program->addShader(combined);
+    }
+#endif
 
     // disabling this check because some effects have disabled technqiues
     // with no shaders defined, intentionally.

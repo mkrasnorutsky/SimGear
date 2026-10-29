@@ -66,6 +66,8 @@ void shInitPiplelineShaders(void)
     glAttachShader(context->progDraw, context->vs);
     glAttachShader(context->progDraw, context->fs);
     glLinkProgram(context->progDraw);
+    { GLint linked=0;glGetProgramiv(context->progDraw,GL_LINK_STATUS,&linked);
+      if(!linked){char log[4096];glGetProgramInfoLog(context->progDraw,sizeof(log),NULL,log);fprintf(stderr,"ShaderVG link failed: %s\n",log);} }
     GL_CHECK_ERROR;
 
     context->locationDraw.pos = glGetAttribLocation(context->progDraw, "pos");

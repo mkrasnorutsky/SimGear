@@ -49,7 +49,7 @@ void shSetupImageFormat(VGImageFormat vg, SHImageFormatDesc* f)
 {
     SHuint8 abits = 0;
     SHuint8 tshift = 0;
-    SHuint8 tmask = 0;
+    SHuint32 tmask = 0;
     SHuint32 amsbBit = 0;
     SHuint32 bgrBit = 0;
 
@@ -215,6 +215,12 @@ void shSetupImageFormat(VGImageFormat vg, SHImageFormatDesc* f)
         f->rmask = tmask;
     }
 
+#if defined(SIMGEAR_USE_ANGLE)
+    /* GLES upload uses an unpacked RGBA byte buffer below. */
+    f->glintformat = GL_RGBA;
+    f->glformat = GL_RGBA;
+    f->gltype = GL_UNSIGNED_BYTE;
+#else
     /* Find proper mapping to OpenGL formats */
     switch (vg & 0x1F) {
     case VG_sRGBX_8888:
@@ -328,6 +334,7 @@ void shSetupImageFormat(VGImageFormat vg, SHImageFormatDesc* f)
         f->gltype = 0;
         break;
     }
+#endif
 }
 
 /*-----------------------------------------------------
@@ -515,9 +522,27 @@ void shUpdateImageTexture(SHImage* i, VGContext* c)
     /* Store pixels to texture */
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glBindTexture(GL_TEXTURE_2D, i->texture);
+#if defined(SIMGEAR_USE_ANGLE)
+    size_t pixels = (size_t)i->texwidth * i->texheight;
+    SHuint8* rgba = (SHuint8*)malloc(pixels * 4);
+    if (!rgba) { shSetError(c, VG_OUT_OF_MEMORY_ERROR); return; }
+    size_t p;
+    for (p = 0; p < pixels; ++p) {
+        SHColor color;
+        shLoadColor(&color, (const SHuint8*)i->data + p * i->fd.bytes, &i->fd);
+        rgba[p * 4] = (SHuint8)(color.r * 255.0f + 0.5f);
+        rgba[p * 4 + 1] = (SHuint8)(color.g * 255.0f + 0.5f);
+        rgba[p * 4 + 2] = (SHuint8)(color.b * 255.0f + 0.5f);
+        rgba[p * 4 + 3] = (SHuint8)(color.a * 255.0f + 0.5f);
+    }
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, i->texwidth, i->texheight,
+                 0, GL_RGBA, GL_UNSIGNED_BYTE, rgba);
+    free(rgba);
+#else
     glTexImage2D(GL_TEXTURE_2D, 0, i->fd.glintformat,
                  i->texwidth, i->texheight, 0,
                  i->fd.glformat, i->fd.gltype, i->data);
+#endif
 }
 
 /*----------------------------------------------------------

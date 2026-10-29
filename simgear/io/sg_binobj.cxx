@@ -1232,14 +1232,27 @@ bool SGBinObject::write_ascii( const string& base, const string& name,
     // close the file
     fclose(fp);
 
-    string command = "gzip --force --best " + file.local8BitStr();
-    int err = system(command.c_str());
-    if (err)
-    {
-        cout << "ERROR: gzip " << file << " failed!" << endl;
+    // Compress in-process: iOS does not permit launching the gzip utility.
+    FILE* input = fopen(file.local8BitStr().c_str(), "rb");
+    if (!input) return false;
+    SGPath compressed(file.utf8Str() + ".gz");
+    gzFile output = gzopen(compressed.local8BitStr().c_str(), "wb9");
+    if (!output) { fclose(input); return false; }
+    char buffer[32768];
+    size_t count;
+    bool ok = true;
+    while ((count = fread(buffer, 1, sizeof(buffer), input)) != 0) {
+        if (gzwrite(output, buffer, static_cast<unsigned>(count)) != static_cast<int>(count)) {
+            ok = false;
+            break;
+        }
     }
-
-    return (err == 0);
+    ok = !ferror(input) && ok;
+    fclose(input);
+    ok = (gzclose(output) == Z_OK) && ok;
+    if (ok) file.remove();
+    else compressed.remove();
+    return ok;
 }
 
 void SGBinObject::read_properties(gzFile fp, int nproperties)

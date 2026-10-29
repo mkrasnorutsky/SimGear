@@ -23,7 +23,9 @@ add_boost_test(canvas_event
   LIBRARIES SimGearScene
 )
 
+if(ENABLE_TESTS)
 add_simgear_test(input_event_demo input_event_demo.cxx)
 target_link_libraries(input_event_demo
   SimGearScene
 )
+endif()

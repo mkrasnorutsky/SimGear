@@ -1076,22 +1076,9 @@ ImageUtils::computeTextureCompressionMode(const osg::Image*                 imag
     }
 
 #else // OSG_GLES2_AVAILABLE
-
-    if (caps.supportsTextureCompression(osg::Texture::USE_PVRTC_4BPP_COMPRESSION))
-    {
-        out_mode = osg::Texture::USE_PVRTC_4BPP_COMPRESSION;
-        return true;
-    }
-    else if (caps.supportsTextureCompression(osg::Texture::USE_PVRTC_2BPP_COMPRESSION))
-    {
-        out_mode = osg::Texture::USE_PVRTC_2BPP_COMPRESSION;
-        return true;
-    }
-    else if (caps.supportsTextureCompression(osg::Texture::USE_ETC_COMPRESSION))
-    {
-        out_mode = osg::Texture::USE_ETC_COMPRESSION;
-        return true;
-    }
+    // No context capability object is available here. Keep the uncompressed
+    // texture instead of requesting an unsupported GLES compression format.
+    out_mode = osg::Texture::USE_IMAGE_DATA_FORMAT;
 
 #endif
 

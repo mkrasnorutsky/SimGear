@@ -1,3 +1,16 @@
+if(SIMGEAR_SPM_OSG_LIBRARY)
+    set(OPENSCENEGRAPH_INCLUDE_DIRS "${SIMGEAR_SPM_OSG_INCLUDE}")
+    set(OSG_INCLUDE_DIR "${SIMGEAR_SPM_OSG_INCLUDE}")
+    foreach(comp OpenThreads OSG osgText osgSim osgDB osgParticle osgGA osgViewer osgUtil osgTerrain)
+        add_library(OSG::${comp} STATIC IMPORTED GLOBAL)
+        set_target_properties(OSG::${comp} PROPERTIES
+            IMPORTED_LOCATION "${SIMGEAR_SPM_OSG_LIBRARY}"
+            INTERFACE_INCLUDE_DIRECTORIES "${SIMGEAR_SPM_OSG_INCLUDE}"
+            INTERFACE_COMPILE_DEFINITIONS "OSG_LIBRARY_STATIC;OPENTHREADS_LIBRARY_STATIC")
+    endforeach()
+    return()
+endif()
+
 # Find OSG libraries
 # and create imported targets corresponding to each lib
 

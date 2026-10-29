@@ -6,7 +6,7 @@ if(POLICY CMP0145)
 endif()
 
 if(POLICY CMP0167)
-  cmake_policy(SET CMP0167 NEW)
+  cmake_policy(SET CMP0167 OLD)
 endif()
 
 if (CMAKE_BUILD_TYPE)
@@ -124,9 +124,13 @@ endif ()
 # Setup MSVC 3rd party directories
 include( ConfigureMsvc3rdParty )
 
-if(APPLE)
+if(APPLE AND NOT CMAKE_SYSTEM_NAME STREQUAL "iOS")
   find_library(COCOA_LIBRARY Cocoa)
   add_compile_definitions(GL_SILENCE_DEPRECATION)
+endif()
+
+if(CMAKE_SYSTEM_NAME STREQUAL "iOS")
+  set(COCOA_LIBRARY "-framework Foundation")
 endif()
 
 find_package(Threads REQUIRED)
@@ -142,7 +146,17 @@ if(SIMGEAR_HEADLESS)
     set(ENABLE_SOUND 0)
 else()
     message(STATUS "SimGear mode: NORMAL")
-    find_package(OpenGL REQUIRED)
+    set(SIMGEAR_ANGLE_ROOT "" CACHE PATH "ANGLE source tree with out/iOS frameworks")
+    if(SIMGEAR_ANGLE_ROOT)
+        add_library(OpenGL::GL INTERFACE IMPORTED)
+        set_target_properties(OpenGL::GL PROPERTIES
+            INTERFACE_INCLUDE_DIRECTORIES "${SIMGEAR_ANGLE_ROOT}/include"
+            INTERFACE_LINK_LIBRARIES "${SIMGEAR_ANGLE_ROOT}/out/iOS/libGLESv2.framework/libGLESv2;${SIMGEAR_ANGLE_ROOT}/out/iOS/libEGL.framework/libEGL")
+        set(OPENGL_LIBRARY OpenGL::GL)
+        add_compile_definitions(SIMGEAR_USE_ANGLE)
+    else()
+        find_package(OpenGL REQUIRED)
+    endif()
 
     if (ENABLE_SOUND)
         if (USE_AEONWAVE)

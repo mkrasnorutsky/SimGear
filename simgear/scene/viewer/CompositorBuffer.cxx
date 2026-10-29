@@ -33,29 +33,29 @@ PropStringMap<BufferFormat> buffer_format_map {
     // Unsigned normalized integer formats
     {"r8", {GL_R8, GL_RED, GL_UNSIGNED_BYTE}},
     {"rg8", {GL_RG8, GL_RG, GL_UNSIGNED_BYTE}},
-    {"rgb8", {GL_RGB8, GL_RGBA, GL_UNSIGNED_BYTE}},
+    {"rgb8", {GL_RGB8, GL_RGB, GL_UNSIGNED_BYTE}},
     {"rgba8", {GL_RGBA8, GL_RGBA, GL_UNSIGNED_BYTE}},
 
     // Unsigned non-normalized integer formats
-    {"r8ui", {GL_R8UI, GL_RED, GL_UNSIGNED_BYTE}},
-    {"r16ui", {GL_R16UI, GL_RED, GL_UNSIGNED_SHORT}},
-    {"r32ui", {GL_R32UI, GL_RED, GL_UNSIGNED_INT}},
+    {"r8ui", {GL_R8UI, GL_RED_INTEGER, GL_UNSIGNED_BYTE}},
+    {"r16ui", {GL_R16UI, GL_RED_INTEGER, GL_UNSIGNED_SHORT}},
+    {"r32ui", {GL_R32UI, GL_RED_INTEGER, GL_UNSIGNED_INT}},
 
     // Floating point formats
     // Half precision
     {"r16f", {GL_R16F, GL_RED, GL_HALF_FLOAT}},
     {"rg16f", {GL_RG16F, GL_RG, GL_HALF_FLOAT}},
-    {"rgb16f", {GL_RGB16F, GL_RGBA, GL_HALF_FLOAT}},
+    {"rgb16f", {GL_RGB16F, GL_RGB, GL_HALF_FLOAT}},
     {"rgba16f", {GL_RGBA16F, GL_RGBA, GL_HALF_FLOAT}},
     // Full precision
     {"r32f", {GL_R32F, GL_RED, GL_FLOAT}},
     {"rg32f", {GL_RG32F, GL_RG, GL_FLOAT}},
-    {"rgb32f", {GL_RGB32F, GL_RGBA, GL_FLOAT}},
+    {"rgb32f", {GL_RGB32F, GL_RGB, GL_FLOAT}},
     {"rgba32f", {GL_RGBA32F, GL_RGBA, GL_FLOAT}},
 
     // Special formats
     {"r11f-g11f-b10f", {GL_R11F_G11F_B10F, GL_RGB, GL_HALF_FLOAT}},
-    {"rgb10-a2", {GL_RGB10_A2, GL_RGBA, GL_UNSIGNED_INT_10_10_10_2}},
+    {"rgb10-a2", {GL_RGB10_A2, GL_RGBA, GL_UNSIGNED_INT_2_10_10_10_REV}},
 
     // Depth formats
     {"depth16", {GL_DEPTH_COMPONENT16, GL_DEPTH_COMPONENT, GL_UNSIGNED_SHORT}},

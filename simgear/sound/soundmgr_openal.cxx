@@ -14,6 +14,9 @@
 #endif
 
 #include <stdio.h>
+#if defined(__APPLE__)
+#include <TargetConditionals.h>
+#endif
 
 #include <iostream>
 #include <algorithm>
@@ -768,9 +771,23 @@ void SGSoundMgr::update_sample_config( SGSoundSample *sample, SGVec3d& position,
     testForError("pitch and gain");
 
     if ( sample->has_static_data_changed() ) {
+#if defined(__APPLE__) && TARGET_OS_IPHONE
+        alSourcei(source,AL_CONE_INNER_ANGLE,static_cast<ALint>(std::max(0.0f,std::min(360.0f,sample->get_innerangle()))));
+
+        alSourcei(source,AL_CONE_OUTER_ANGLE,static_cast<ALint>(std::max(0.0f,std::min(360.0f,sample->get_outerangle()))));
+
+#else
         alSourcef( source, AL_CONE_INNER_ANGLE, sample->get_innerangle() );
         alSourcef( source, AL_CONE_OUTER_ANGLE, sample->get_outerangle() );
+#endif
+#if defined(__APPLE__) && TARGET_OS_IPHONE
+        // Omnidirectional sources have no outer-cone region. Apple's legacy
+        // OpenAL rejects a zero float gain here, even though it is a valid default.
+        if(sample->get_outerangle()<360.0f)
+            alSourcef(source,AL_CONE_OUTER_GAIN,std::max(0.0001f,std::min(1.0f,sample->get_outergain())));
+#else
         alSourcef( source, AL_CONE_OUTER_GAIN, sample->get_outergain() );
+#endif
         testForError("audio cone");
 
         alSourcef( source, AL_MAX_DISTANCE, sample->get_max_dist() );

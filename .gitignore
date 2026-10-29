@@ -22,3 +22,11 @@ compile_commands.json
 .cache
 CMakeUserPresets.json
 Testing/
+
+out/
+dist/
+.build/
+.swiftpm/
+Package.resolved
+.DS_Store
+__pycache__/

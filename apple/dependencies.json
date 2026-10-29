@@ -1,0 +1,50 @@
+{
+  "libEGL": {
+    "url": "https://github.com/mkrasnorutsky/ANGLE/releases/download/0.1.0/libEGL.xcframework.zip",
+    "sha256": "894faf03eae77cefbb4008940d4a5e3927504a2544c5c86ad6ecf68bc0013cf1",
+    "package": "ANGLE",
+    "version": "0.1.0"
+  },
+  "libGLESv2": {
+    "url": "https://github.com/mkrasnorutsky/ANGLE/releases/download/0.1.0/libGLESv2.xcframework.zip",
+    "sha256": "acd2e421576fd13493689a1f30f8d08121e4e4a2fbcd9028ffb86d85fe2e114c",
+    "package": "ANGLE",
+    "version": "0.1.0"
+  },
+  "FreeType": {
+    "url": "https://github.com/mkrasnorutsky/FreeType/releases/download/0.1.0/FreeType.xcframework.zip",
+    "sha256": "78944338593587a4cdaf2ce6d39dc80fd51e2568e7648304ca1ebaba58779662",
+    "package": "FreeType",
+    "version": "0.1.0"
+  },
+  "OpenSceneGraph": {
+    "url": "https://github.com/mkrasnorutsky/OpenSceneGraph/releases/download/0.1.0/OpenSceneGraph.xcframework.zip",
+    "sha256": "b4e8f90e559ef0c4722b92429cfa0e0e073028cc9b08c1bf26fa76b837cc3a51",
+    "package": "OpenSceneGraph",
+    "version": "0.1.0"
+  },
+  "Boost": {
+    "url": "https://github.com/mkrasnorutsky/Boost/releases/download/0.1.0/Boost.xcframework.zip",
+    "sha256": "b5cda409e33df01f00e7bbda3ac7bf7853efad4b49bbdb9764b29f351e352387",
+    "package": "Boost",
+    "version": "0.1.0"
+  },
+  "Curl": {
+    "url": "https://github.com/mkrasnorutsky/curl/releases/download/0.1.0/Curl.xcframework.zip",
+    "sha256": "29e8d7316463d81708d1ec54c91c41b3c47592ff15b757f914146fc178532149",
+    "package": "curl",
+    "version": "0.1.0"
+  },
+  "CAres": {
+    "url": "https://github.com/mkrasnorutsky/c-ares/releases/download/0.1.0/CAres.xcframework.zip",
+    "sha256": "6a02c72d3b0756a8ce376823dfabcd2798dc5f00ab9c2fc54e6be3991e548f45",
+    "package": "c-ares",
+    "version": "0.1.0"
+  },
+  "LZMA": {
+    "url": "https://github.com/mkrasnorutsky/XZ/releases/download/0.1.0/LZMA.xcframework.zip",
+    "sha256": "f1977bfd02efe8ace94ac41e87ddf51dc33b73247f35fd60ddb01e3dacb827ac",
+    "package": "XZ",
+    "version": "0.1.0"
+  }
+}
