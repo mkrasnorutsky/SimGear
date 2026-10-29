@@ -42,3 +42,7 @@ Commit `dist/Package.swift` as the root manifest and upload the ZIP, checksums a
 ## Xcode header layout (0.1.1)
 
 Binary module maps live under a module-specific header subdirectory, avoiding duplicate `include/module.modulemap` outputs when Xcode processes several static XCFrameworks together. The library bytes and public include paths are unchanged. Set `APPLE_BUILD_ROOT` to keep `out/` and `dist/` outside the checkout.
+
+## Source patch 0.1.2
+
+Registers only the AC3D, glTF, BTG, STG and SPT loaders compiled in this profile. PGT is excluded from the static loader anchors. This source-only patch reuses the immutable 0.1.1 XCFramework and dependency versions.
