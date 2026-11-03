@@ -154,7 +154,13 @@ protected:
                     _cache[h] = addr;
                 } // of found un-resolved entry
             } // of un-resolved address iteration
-            _wait.wait(_lock);
+            // The lookup above releases _lock. Recheck shutdown and queued
+            // requests before sleeping: notifications are not stored permits.
+            bool unresolved = false;
+            for (const auto& entry : _cache) {
+                if (entry.second == nullptr) { unresolved = true; break; }
+            }
+            if (!_done && !unresolved) _wait.wait(_lock);
         } // of thread run loop
         _lock.unlock();
     }

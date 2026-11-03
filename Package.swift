@@ -10,7 +10,7 @@ let package = Package(name: "SimGear", platforms: [.iOS("18.0")],
         .package(url: "https://github.com/mkrasnorutsky/XZ.git", exact: "0.1.1")
     ],
     targets: [
-        .binaryTarget(name: "CSimGear", url: "https://github.com/mkrasnorutsky/SimGear/releases/download/0.1.1/SimGear.xcframework.zip", checksum: "9cbcb467b128d5a617b4daf6d7c7cf849270376e61f027491897de13cf05b881"),
+        .binaryTarget(name: "CSimGear", url: "https://github.com/mkrasnorutsky/SimGear/releases/download/0.1.3/SimGear.xcframework.zip", checksum: "e6c69a96c2d87b7b6307493e250391039a8a23c81f614b7445d70cf6acd2b89c"),
         .target(name: "SimGear", dependencies: ["CSimGear",
             .product(name: "OpenSceneGraph", package: "openscenegraph"), .product(name: "Boost", package: "boost"),
             .product(name: "Curl", package: "curl"), .product(name: "CAres", package: "c-ares"), .product(name: "LZMA", package: "xz")],

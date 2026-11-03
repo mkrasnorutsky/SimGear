@@ -10,6 +10,9 @@
 #include <sstream>
 #include <string>
 #include <cstdio>
+#include <simgear/io/raw_socket.hxx>
+#include <chrono>
+#include <thread>
 int main() {
     SimGearSPMInitialize();
     for (const char* extension : {"ac", "btg", "stg", "gltf"})
@@ -29,6 +32,21 @@ int main() {
     simgear::HTTP::Client http;
     simgear::DNS::Client dns;
     SGSoundMgr sound;
+    simgear::IPAddress local;
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(5);
+    while (!simgear::IPAddress::lookupNonblocking("localhost", local)) {
+        if (std::chrono::steady_clock::now() > deadline) return 7;
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    }
+    if (!local.isValid()) return 8;
+    // Leave requests pending: atexit must stop/join even if a notification
+    // arrives while the resolver has temporarily released its state mutex.
+    for (int i=2; i<32; ++i) {
+        simgear::IPAddress pending;
+        const auto host = "127.0.0." + std::to_string(i);
+        simgear::IPAddress::lookupNonblocking(host.c_str(), pending);
+    }
+    std::puts("PASS resolver delivery and cooperative exit");
     std::puts("PASS SimGear property XML/elevator, scenery bucket, image metadata, HTTP/DNS and sound construction");
     return 0;
 }

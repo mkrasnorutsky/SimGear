@@ -57,7 +57,7 @@ def main():
     artifact=out/'SimGear.xcframework'
     if artifact.exists():shutil.rmtree(artifact)
     run('xcodebuild','-create-xcframework','-library',built['ios-arm64']['library'],'-headers',deviceheaders,'-library',sim,'-headers',simheaders,'-output',artifact)
-    licenses=artifact/'Licenses';licenses.mkdir();shutil.copy2(ROOT/'COPYING',licenses/'COPYING')
+    licenses=artifact/'Licenses';licenses.mkdir();shutil.copy2(ROOT/'COPYING',licenses/'COPYING');shutil.copy2(ROOT/'simgear/threads/LICENSE.MIT',licenses/'StandardThreads-MIT.txt')
     for part in ['expat','tiny_gltf','utf8']:
         directory=ROOT/'3rdparty'/part
         for p in directory.rglob('*'):

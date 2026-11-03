@@ -9,6 +9,7 @@ SYSTEM_FRAMEWORKS=['Foundation','UIKit','ImageIO','CoreGraphics','Accelerate','M
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--run-simulator',action='store_true');a=p.parse_args()
     artifact=WORK/'dist/SimGear.xcframework';info=plistlib.loads((artifact/'Info.plist').read_bytes());assert len(info['AvailableLibraries'])==2
+    subprocess.run(['python3',str(ROOT/'apple/scripts/validate_standard_threads.py'),'--artifact',str(artifact),*(['--run-simulator'] if a.run_simulator else [])],check=True)
     packages=fetch()
     for entry in info['AvailableLibraries']:
         sim=entry.get('SupportedPlatformVariant')=='simulator'
@@ -32,5 +33,5 @@ def main():
                     '-framework','libGLESv2','-framework','libEGL','-lz','-lresolv',*[item for f in SYSTEM_FRAMEWORKS for item in ['-framework',f]],'-o',str(binary)],check=True)
                 print('PASS: SimGear Core/Scene and dependency link '+triple,flush=True)
                 if a.run_simulator and sim and arch==os.uname().machine:
-                    subprocess.run(['xcrun','simctl','spawn','booted',str(binary)],check=True)
+                    subprocess.run(['xcrun','simctl','spawn','booted',str(binary)],check=True,timeout=120)
 if __name__=='__main__':main()

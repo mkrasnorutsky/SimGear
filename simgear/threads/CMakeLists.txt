@@ -3,7 +3,8 @@ include (SimGearComponent)
 set(HEADERS 
     SGGuard.hxx
     SGQueue.hxx
-    SGThread.hxx)
+    SGThread.hxx
+    LICENSE.MIT)
 
 set(SOURCES SGThread.cxx)
 simgear_component(threads threads "${SOURCES}" "${HEADERS}")

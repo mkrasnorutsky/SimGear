@@ -19,6 +19,7 @@
 #include <simgear/debug/logstream.hxx>
 
 #include <simgear/threads/SGThread.hxx>
+#include <simgear/timing/timestamp.hxx>
 
 
 extern"C" {
